@@ -1,0 +1,43 @@
+MIKROTIK
+========
+
+Router type RB951G-2HND-L4
+
+Winbox can run in Wine - install wine wget curl wine_geco wine_mono
+- download at https://mikrotik.com/download
+
+Upgrades
+- upgrade packages in System -> Packages -> Check for updates
+- upgrade Routerboard in System -> Routerboard -> Upgrade
+
+Software
+- main package and extra packages at https://mikrotik.com/download
+- section MIPSBE 
+
+Create additional SSIDs
+- add virtual interface (wlan) in Wireless
+- add a new Security Profile
+- set a new security profile in a new wlan config.
+- assign a new wlan to the default bridge in Bridge 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Mikrotik Tutorial on YouTube:
+https://www.youtube.com/user/rodrick4u/videos
