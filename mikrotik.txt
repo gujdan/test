@@ -20,6 +20,11 @@ Create additional SSIDs
 - set a new security profile in a new wlan config.
 - assign a new wlan to the default bridge in Bridge 
 
+Configuration Backups
+- to make backup: Files -> Backup (file is encrypted with the router's password) -> download backup file
+- to restore backup: Files -> Restore
+- to save configuration: New Terminal -> export file=export_name (new script will be saved in Files location) -> download export script
+
 
 
 
