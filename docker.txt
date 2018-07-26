@@ -1,0 +1,127 @@
+DOCKER
+
+https://training.play-with-docker.com/ops-stage1/
+
+1. BASICS
+
+First Linux Containers
+=======================
+docker image pull alpine
+docker image ls
+---
+docker container run alpine ls -l
+docker container run -it alpine /bin/sh
+docker container run -it alpine /bin/ash
+docker container ls
+docker container ls -a
+---
+docker container start <container ID>
+docker container exec <container ID> ls
+
+
+Customizing Docker Images
+==========================
+docker image pull ubuntu		<-- download ubuntu docker image
+docker container run -ti ubuntu bash	<-- create ubuntu container and run interactive shell
+---
+apt-get update				<-- update ubuntu
+apt-get install -y figlet		<-- install figlet software
+figlet "hello docker"			<-- test figlet
+exit
+---
+docker container ls -a			<-- get the ID for the container above
+docker container diff <container ID> 	<-- show all changes to the container compared to image
+docker container commit <container ID>	<-- commit the changes to the container
+docker image ls				<-- new image will appear
+docker image tag <IMAGE_ID> our_figlet	<-- change the name (tag) of our new image
+---
+docker container run our_figlet figlet hello	<-- create container from our new image and run command figlet in it
+
+
+Image creation using a Dockerfile
+==================================
+Dockerize javascript application using alpine base OS image and Dockerfile:
+index.js
+	var os = require("os");
+	var hostname = os.hostname();
+	console.log("hello from " + hostname);
+Dockerfile
+	FROM alpine
+	RUN apk update && apk add nodejs
+	COPY . /app
+	WORKDIR /app
+	CMD ["node","index.js"]
+---
+docker image build -t hello:v0.1 .	<-- build a new image
+docker container run hello:v0.1
+
+
+Image layers
+=============
+docker image history <image ID>				<-- list image history - list of intermediate container images that were built along the way
+echo "console.log(\"this is v0.2\");" >> index.js	<-- change nodejs script
+docker image build -t hello:v0.2 .			<-- create a new version of the image
+							<-- in the steps that didn't change it uses the cached version of the image
+
+Image Inspection
+=================
+docker image pull alpine
+docker image inspect alpine						<-- show details on the container image
+docker image inspect --format "{{ json .RootFS.Layers }}" alpine	<-- get a list of layers
+docker image inspect --format "{{ json .RootFS.Layers }}" <image ID>
+
+
+Swarm Mode
+===========
+Docker Compose - control multiple containers on a single system
+Docker Swarm Mode
+- coordinate operations across more Docker engines
+- three managers is the minimum to have a true high-availability cluster with quorum
+---
+docker swarm init --advertise-addr $(hostname -i)		<-- initialize docker swarm (node1)
+docker swarm join --token SWMTKN-1-3b33jjwsqpkcy2c8og73aorjf2ao9sjm4crvbwg3xpd1ome459-ckfdcxqqahb9gy9s2t9n5mi78 10.0.25.3:2377		<-- add worker to a swarm (node2)
+docker node ls		<-- show swarm members (on swarm manager)
+---
+
+Voting App:
+-----------
+git clone https://github.com/docker/example-voting-app		<-- on docker manager
+cd example-voting-app
+
+A stack is a group of services that are deployed together: 
+multiple containerized components of an application that run in separate instances. 
+Each individual service can actually be made up of one or more containers, 
+called tasks and then all the tasks & services together make up a stack.
+
+cat docker-stack.yml			<-- will be used to deploy the voting app as a stack
+
+docker stack deploy --compose-file=docker-stack.yml voting_stack	<-- deploy stack (on node1 - manager)
+docker stack ls								<-- show running stack with the number of services
+docker stack services voting_stack					<-- show services running in the stack
+docker service ps voting_stack_vote					<-- list the tasks of the vote service
+---
+docker service scale voting_stack_vote=5				<-- change the number of replicas of the vote service to 5
+
+SWARM VISUALIZER	<-- shows physical layout of the stack
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

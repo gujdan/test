@@ -1,0 +1,79 @@
+Pluralsight - Getting Started with Git
+======================================
+
+- git GUI clients:
+https://git-scm.com/downloads/guis
+
+Install Git
+---------------
+yum install git
+git --version
+git config --global user.name "Jozko Mrkvicka"
+git config --global user.email "jozko.mrkvicka@gmail.com"
+git config --list
+git config user.name
+git help config
+man git; git help
+
+Initialize Git Repository
+-------------------------
+cd /path/to/directory
+git init
+
+Create GitHub account.
+
+echo "# wired-brain-recipes" >> README.md
+git add .
+git commit -m "first commit"
+git remote add origin https://github.com/gujdan/test.git
+git push -u origin master
+
+
+Basic Commands
+--------------
+git status
+touch filename
+git add filename		- apply changes (adding file)
+- modify filename
+git add filename		- apply changes (file changed)
+git status -s			- short status
+git diff --staged		- show differences between staged and commited version
+git diff			- show changes that hasn't been staged for commit
+git commit -a -m "message"	- stage all changes and commit them
+
+
+Extended Commands
+-----------------
+git log			- info about previous commits
+git log --oneline	- log overview
+git log --stat		- detail log
+git log --patch		- show full diff log
+
+Commit messages rules:
+https://chris.beams.io/posts/git-commit/
+
+git rm filename			- remove file (and delete it from FS)
+git rm --cached filename	- untrack file from git (don't delete it from disk)
+git mv README.md README		- rename file
+
+Branches:
+---------
+http://git-school.github.io/visualizing-git
+
+git checkout -b new_branch	- create a new branch and switch to that branch
+git commit -m "message"		- commit to the new_branch
+git checkout master		- go back to master branch
+git commit -m "message"		- commit to the master branch
+
+git stash			- stash the changes in a dirty working directory away
+git stash list			- list stashed changes
+git stash show			- detail view
+
+git checkout master
+git merge new_branch		- merge new_branch into master branch
+
+git reset --soft 		- reset to staging area
+git reset			- reset to working directory
+git reset --hard		- completely remove change
+
+git clone https://github.com/gujdan/test.git		- clone existing git repository localy
